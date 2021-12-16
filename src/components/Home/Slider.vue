@@ -1,25 +1,28 @@
 <template>
   <div class="slider-container">
-    <h1 class="slider-title">{{ title }}</h1>
-    <!-- BOUTTON CHEVRON -->
-    <div class="slider-btn">
-      <button
-        @click="handleSlide('l')"
-        class="chevron chevron-l"
-        v-if="offset > 0"
-      >
-        <i class="fas fa-chevron-left"></i>
-      </button>
+    <div class="loader" v-if="items.length === 0">Ceci est le loader</div>
+    <div v-else>
+      <h1 class="slider-title">{{ title }}</h1>
+      <!-- BOUTTON CHEVRON -->
+      <div class="slider-btn">
+        <button
+          @click="handleSlide('l')"
+          class="chevron chevron-l"
+          v-if="offset > 0"
+        >
+          <i class="fas fa-chevron-left"></i>
+        </button>
 
-      <button @click="handleSlide('r')" class="chevron chevron-r">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-    </div>
-    <!-- Séparateur de slider -->
-    <div class="slider" :style="{ 'margin-left': '-' + offset + 'px' }">
-      <!-- CARTES SLIDER -->
-      <div v-for="(item, index) in items" :key="index">
-        <Card :anime="item" />
+        <button @click="handleSlide('r')" class="chevron chevron-r">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <!-- Séparateur de slider -->
+      <div class="slider" :style="{ 'margin-left': '-' + offset + 'px' }">
+        <!-- CARTES SLIDER -->
+        <div v-for="(item, index) in items" :key="index">
+          <Card :anime="item" />
+        </div>
       </div>
     </div>
   </div>
@@ -90,6 +93,7 @@ export default {
       cursor: pointer;
       font-size: 1.5em;
       transition: 300ms ease;
+      background: rgba(34, 34, 34, 0.459);
       &:hover {
         font-size: 2em;
         background: rgba(34, 34, 34, 0.705);

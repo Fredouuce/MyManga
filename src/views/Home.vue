@@ -30,11 +30,7 @@ export default {
     this.$store.dispatch("getTopTvAnimeList");
     this.$store.dispatch("getTopMovieAnimeList");
   },
-  methods: {
-    info() {
-      console.log(this.topAnimes[0].title_english);
-    },
-  },
+  methods: {},
 };
 </script>
 

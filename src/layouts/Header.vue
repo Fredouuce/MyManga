@@ -1,9 +1,9 @@
 <template>
   <header>
-    <nav class="navbar">
+    <nav class="navbar" :class="{ change_color: scrollPosition > 50 }">
       <!-- Left nav -->
       <div class="left-nav">
-        <h1 class="logo">My Manga</h1>
+        <router-link to="/"><h1 class="logo">My Manga</h1></router-link>
         <ul class="nav-list">
           <li><router-link to="/">Accueil</router-link></li>
           <li><router-link to="/about">Séries</router-link></li>
@@ -12,7 +12,7 @@
       </div>
 
       <!-- right nav -->
-      <div class="right-nav">
+      <!-- <div class="right-nav">
         <div class="search">
           <label for="search-nav" class="search-loop"
             ><i class="fas fa-search"></i
@@ -29,7 +29,7 @@
           <img src="../assets/profile.png" alt="" class="img-acc" />
           <small class="name-acc"></small>
         </div>
-      </div>
+      </div> -->
     </nav>
   </header>
 </template>
@@ -37,6 +37,19 @@
 <script>
 export default {
   name: "Header",
+  data() {
+    return {
+      scrollPosition: null,
+    };
+  },
+  methods: {
+    updateScroll() {
+      this.scrollPosition = window.scrollY;
+    },
+  },
+  mounted() {
+    window.addEventListener("scroll", this.updateScroll);
+  },
 };
 </script>
 
@@ -46,12 +59,13 @@ export default {
 .left-nav {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
 }
 .navbar {
   position: fixed;
   padding: 1em 2em;
-
   width: 100vw;
   display: flex;
   background: rgb(255, 255, 255);
@@ -62,7 +76,8 @@ export default {
   );
   align-items: center;
   justify-content: space-between;
-  z-index: 5;
+  z-index: 6;
+  transition: 300ms ease-in-out;
   .nav-list {
     display: flex;
     margin-left: 4em;
@@ -70,6 +85,7 @@ export default {
       list-style: none;
       margin-right: 1em;
       a {
+        font-size: 14px;
         color: white;
         text-decoration: none;
         transition: 300ms ease;
@@ -87,8 +103,10 @@ export default {
 
 .logo {
   color: white;
-  font-size: 2em;
+  font-size: 1.2em;
   font-family: "Satisfy", cursive;
+  outline: none;
+  text-decoration: none;
 }
 
 .right-nav {
@@ -127,5 +145,9 @@ export default {
   &:hover {
     opacity: 0.7;
   }
+}
+
+.change_color {
+  background-color: rgb(20, 20, 20);
 }
 </style>

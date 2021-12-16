@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import axios from "axios";
-
+// import router from "../router";
 const baseUrl = "https://api.jikan.moe/v4";
 
 export default createStore({
@@ -8,6 +8,7 @@ export default createStore({
     topAnimes: [],
     topTvAnimes: [],
     topMovieAnimes: [],
+    animeDetail: {},
   },
   mutations: {
     setTopAnimes(state, data) {
@@ -19,6 +20,9 @@ export default createStore({
     setTopMovieAnimes(state, data) {
       state.topMovieAnimes = data;
     },
+    setAnimeDetail(state, data) {
+      state.animeDetail = data;
+    },
   },
   actions: {
     async getTopAnimeList(context) {
@@ -27,14 +31,22 @@ export default createStore({
     },
 
     async getTopTvAnimeList(context) {
-      let data = await axios.get(baseUrl + "/anime?page=1&type=tv");
+      let data = await axios.get(
+        baseUrl + "/anime?type=tv&order_by=members&sort=desc"
+      );
       context.commit("setTopTvAnimes", data.data.data);
     },
 
     async getTopMovieAnimeList(context) {
       let data = await axios.get(baseUrl + "/anime?page=1&type=movie");
-      console.log(data.data.data);
       context.commit("setTopMovieAnimes", data.data.data);
     },
+
+    // async getAnimeDetail(context) {
+    //   let data = await axios.get(
+    //     baseUrl + `/anime/${router.currentRoute.value.params.id}`
+    //   );
+    //   context.commit("setAnimeDetail", data.data);
+    // },
   },
 });

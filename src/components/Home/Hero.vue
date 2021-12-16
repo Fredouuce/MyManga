@@ -45,9 +45,10 @@ export default {
   .hero-img {
     z-index: -1;
     position: absolute;
-    top: -100px;
 
     width: 100vw;
+    height: 100vh;
+    object-fit: cover;
   }
   .hero-btn {
     display: inline-block;
@@ -88,5 +89,8 @@ export default {
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.45);
     }
   }
+}
+
+@media screen and (min-width: 450px) {
 }
 </style>

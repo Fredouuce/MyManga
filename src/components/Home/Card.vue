@@ -1,30 +1,32 @@
 <template>
-  <div class="card-container">
-    <img :src="anime.images.jpg.image_url" alt="" class="card-img" />
+  <router-link :to="'/anime/' + anime.mal_id" class="card-link">
+    <div class="card-container">
+      <img :src="anime.images.jpg.image_url" alt="" class="card-img" />
 
-    <div class="card-info">
-      <div>
-        <h3 class="card-title">{{ anime.title }}</h3>
-        <p class="card-synop">
-          {{ anime.synopsis.substring(0, 200) }}...
-          <span class="readmore">readmore</span>
-        </p>
-      </div>
-      <div class="info-separator"></div>
-
-      <div class="card-bottom">
-        <div class="card-genre">
-          <span>{{ anime.type }} - </span>
-          <span v-if="anime.type == 'Movie'">{{ anime.duration }}</span>
-          <span v-else>{{ anime.episodes }} épisodes</span>
-        </div>
-
+      <div class="card-info">
         <div>
-          <span><i class="fas fa-chevron-down"></i></span>
+          <h3 class="card-title">{{ anime.title }}</h3>
+          <p class="card-synop">
+            {{ anime.synopsis.substring(0, 200) }}...
+            <span class="readmore">readmore</span>
+          </p>
+        </div>
+        <div class="info-separator"></div>
+
+        <div class="card-bottom">
+          <div class="card-genre">
+            <span>{{ anime.type }} - </span>
+            <span v-if="anime.type == 'Movie'">{{ anime.duration }}</span>
+            <span v-else>{{ anime.episodes }} épisodes</span>
+          </div>
+
+          <div>
+            <span><i class="fas fa-chevron-down"></i></span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -35,6 +37,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.card-link {
+  color: white;
+}
 .card-container {
   height: 350px;
   width: 220px;
