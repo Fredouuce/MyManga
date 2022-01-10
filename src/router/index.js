@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Anime from "../views/Anime.vue";
+// import SynopsisAnime from "../components/Anime/synopsisAnime.vue";
 const routes = [
   {
     path: "/",

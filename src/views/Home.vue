@@ -37,5 +37,7 @@ export default {
 <style lang="scss" scoped>
 .container-card {
   padding: 0 1em;
+  position: relative;
+  top: -150px;
 }
 </style>

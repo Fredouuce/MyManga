@@ -61,7 +61,7 @@ export default {
   }
   .card-info {
     position: absolute;
-    bottom: -250px;
+    bottom: -400px;
     transition: 600ms ease;
     padding: 0.5em;
     width: 100%;

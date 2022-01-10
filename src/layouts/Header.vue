@@ -3,7 +3,9 @@
     <nav class="navbar" :class="{ change_color: scrollPosition > 50 }">
       <!-- Left nav -->
       <div class="left-nav">
-        <router-link to="/"><h1 class="logo">My Manga</h1></router-link>
+        <router-link to="/"
+          ><img src="../assets/aniflix.png" alt="" class="logo"
+        /></router-link>
         <ul class="nav-list">
           <li><router-link to="/">Accueil</router-link></li>
           <li><router-link to="/about">Séries</router-link></li>
@@ -102,11 +104,7 @@ export default {
 }
 
 .logo {
-  color: white;
-  font-size: 1.2em;
-  font-family: "Satisfy", cursive;
-  outline: none;
-  text-decoration: none;
+  width: 120px;
 }
 
 .right-nav {
@@ -148,6 +146,6 @@ export default {
 }
 
 .change_color {
-  background-color: rgb(20, 20, 20);
+  background-color: rgb(0, 0, 0);
 }
 </style>

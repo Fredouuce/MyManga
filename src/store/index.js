@@ -41,12 +41,5 @@ export default createStore({
       let data = await axios.get(baseUrl + "/anime?page=1&type=movie");
       context.commit("setTopMovieAnimes", data.data.data);
     },
-
-    // async getAnimeDetail(context) {
-    //   let data = await axios.get(
-    //     baseUrl + `/anime/${router.currentRoute.value.params.id}`
-    //   );
-    //   context.commit("setAnimeDetail", data.data);
-    // },
   },
 });
