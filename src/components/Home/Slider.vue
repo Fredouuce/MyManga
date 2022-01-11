@@ -1,6 +1,8 @@
 <template>
   <div class="slider-container">
-    <div class="loader" v-if="items.length === 0">Ceci est le loader</div>
+    <div class="loader" v-if="items.length === 0">
+      <p>Chargement</p>
+    </div>
     <div v-else>
       <h1 class="slider-title">{{ title }}</h1>
       <!-- BOUTTON CHEVRON -->
@@ -30,6 +32,7 @@
 
 <script>
 import Card from "./Card.vue";
+
 export default {
   name: "Slider",
   props: ["title", "items"],

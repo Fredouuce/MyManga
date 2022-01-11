@@ -1,93 +1,100 @@
 <template>
-  <h1 v-if="animeInfo.length === 0">Attendez que vos données se charge</h1>
-  <div class="anime-container" v-else>
-    <div class="background">
-      <img
-        :src="animeInfo.images.jpg.large_image_url"
-        alt=""
-        class="background-img"
-      />
+  <div>
+    <div v-if="loading === true" class="loader-anime">
+      <div>
+        <Loader />
+        <h1>{{ error }}</h1>
+      </div>
     </div>
-    <div class="info-container">
-      <div class="first">
-        <!--***********************************Cotés gauche*****************************************************-->
-        <div class="left">
-          <img
-            :src="animeInfo.images.jpg.large_image_url"
-            alt=""
-            class="anime-img"
-          />
+    <div class="anime-container" v-else>
+      <div class="background">
+        <img
+          :src="animeInfo.images.jpg.large_image_url"
+          alt=""
+          class="background-img"
+        />
+      </div>
+      <div class="info-container">
+        <div class="first">
+          <!--***********************************Cotés gauche*****************************************************-->
+          <div class="left">
+            <img
+              :src="animeInfo.images.jpg.large_image_url"
+              alt=""
+              class="anime-img"
+            />
 
-          <div v-if="animeInfo.type === 'Movie'">
-            <p>{{ animeInfo.title }}</p>
+            <div v-if="animeInfo.type === 'Movie'">
+              <p>{{ animeInfo.title }}</p>
+              <p>
+                Duration :
+                {{
+                  animeInfo.duration
+                    ? animeInfo.duration
+                    : "Duration is not specify"
+                }}
+              </p>
+            </div>
+            <div v-else>
+              <p>
+                Épisodes :
+                {{
+                  animeInfo.episodes
+                    ? animeInfo.episodes
+                    : "Number of episodes are not specify"
+                }}
+              </p>
+            </div>
             <p>
-              Duration :
-              {{
-                animeInfo.duration
-                  ? animeInfo.duration
-                  : "Duration is not specify"
-              }}
+              Scored :
+              {{ animeInfo.score ? animeInfo.score : "Not specify" }}/10 by
+              {{ animeInfo.scored_by ? animeInfo.scored_by : "Not Specify" }}
+              fans
+            </p>
+            <p>
+              Launched in :
+              {{ animeInfo.year ? animeInfo.year : "Not specify" }}
+            </p>
+            <p class="genres">
+              Genres :
+              <span v-for="(genre, index) in animeInfo.genres" :key="index">
+                {{ genre.name }},
+              </span>
             </p>
           </div>
-          <div v-else>
-            <p>
-              Épisodes :
-              {{
-                animeInfo.episodes
-                  ? animeInfo.episodes
-                  : "Number of episodes are not specify"
-              }}
-            </p>
-          </div>
-          <p>
-            Scored :
-            {{ animeInfo.score ? animeInfo.score : "Not specify" }}/10 by
-            {{ animeInfo.scored_by ? animeInfo.scored_by : "Not Specify" }}
-            fans
-          </p>
-          <p>
-            Launched in :
-            {{ animeInfo.year ? animeInfo.year : "Not specify" }}
-          </p>
-          <p class="genres">
-            Genres :
-            <span v-for="(genre, index) in animeInfo.genres" :key="index">
-              {{ genre.name }},
-            </span>
-          </p>
-        </div>
-        <!--***********************************Cotés droit*****************************************************-->
-        <div class="right">
-          <button
-            @click="setAnimeInfo('synopsis-anime')"
-            :class="setInfo === 'synopsis-anime' ? 'active' : ''"
-          >
-            Details
-          </button>
-          <button
-            @click="setAnimeInfo('characters-anime')"
-            :class="setInfo === 'characters-anime' ? 'active' : ''"
-          >
-            Characters
-          </button>
-          <button
-            @click="setAnimeInfo('staff-anime')"
-            :class="setInfo === 'staff-anime' ? 'active' : ''"
-          >
-            Staff & Production
-          </button>
-          <div class="content-info">
-            <component
-              :is="setInfo"
-              :animeInfo="animeInfo"
-              :characters="tenChara"
-            ></component>
+          <!--***********************************Cotés droit*****************************************************-->
+          <div class="right">
+            <button
+              @click="setAnimeInfo('synopsis-anime')"
+              :class="setInfo === 'synopsis-anime' ? 'active' : ''"
+            >
+              Details
+            </button>
+            <button
+              @click="setAnimeInfo('characters-anime')"
+              :class="setInfo === 'characters-anime' ? 'active' : ''"
+            >
+              Characters
+            </button>
+            <button
+              @click="setAnimeInfo('staff-anime')"
+              :class="setInfo === 'staff-anime' ? 'active' : ''"
+            >
+              Staff & Production
+            </button>
+            <div class="content-info">
+              <component
+                :is="setInfo"
+                :animeInfo="animeInfo"
+                :characters="tenChara"
+                :staff="staff"
+              ></component>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <span> {{ typeof error }}</span>
 </template>
 
 <script>
@@ -95,12 +102,14 @@ import axios from "axios";
 import charactersAnime from "../components/Anime/charactersAnime.vue";
 import staffAnime from "../components/Anime/staffAnime.vue";
 import synopsisAnime from "../components/Anime/synopsisAnime.vue";
+import Loader from "../components/Template/Loader.vue";
 export default {
   name: "Anime",
   components: {
     charactersAnime,
     staffAnime,
     synopsisAnime,
+    Loader,
   },
   data() {
     return {
@@ -109,12 +118,13 @@ export default {
       setInfo: "synopsis-anime",
       animeCharacters: [],
       tenChara: null,
+      loading: true,
+      staff: [],
     };
   },
   methods: {
     setAnimeInfo(cmp) {
       this.setInfo = cmp;
-      console.log(this.setInfo);
     },
   },
   mounted() {
@@ -123,22 +133,23 @@ export default {
       .then((response) => {
         this.animeInfo = response.data.data;
         axios
-          .get(`https://api.jikan.moe/v4/anime/${this.$route.params.id}/staff`)
-          .then((response) => {
-            console.log(response.data.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        //******************** */
-        axios
           .get(
             `https://api.jikan.moe/v4/anime/${this.$route.params.id}/characters`
           )
           .then((response) => {
             this.animeCharacters = response.data.data;
             this.tenChara = response.data.data.slice(0, 10);
-            console.log(this.tenChara);
+            axios
+              .get(
+                `https://api.jikan.moe/v4/anime/${this.$route.params.id}/staff`
+              )
+              .then((response) => {
+                this.loading = false;
+                this.staff = response.data.data.slice(0, 10);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           })
           .catch((error) => {
             console.log(error);
@@ -153,6 +164,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.loader-anime {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 .anime-container {
   padding-top: 4em;
   display: flex;

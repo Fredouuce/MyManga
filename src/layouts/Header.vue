@@ -12,33 +12,18 @@
           <li><router-link to="/about">Films</router-link></li>
         </ul>
       </div>
-
-      <!-- right nav -->
-      <!-- <div class="right-nav">
-        <div class="search">
-          <label for="search-nav" class="search-loop"
-            ><i class="fas fa-search"></i
-          ></label>
-          <input
-            type="text"
-            id="search-nav"
-            name="search-nav"
-            class="search-input"
-            placeholder="Titre,personnes,genres"
-          />
-        </div>
-        <div class="account">
-          <img src="../assets/profile.png" alt="" class="img-acc" />
-          <small class="name-acc"></small>
-        </div>
-      </div> -->
+      <Search />
     </nav>
   </header>
 </template>
 
 <script>
+import Search from "../components/Search.vue";
 export default {
   name: "Header",
+  components: {
+    Search,
+  },
   data() {
     return {
       scrollPosition: null,
@@ -105,44 +90,6 @@ export default {
 
 .logo {
   width: 120px;
-}
-
-.right-nav {
-  display: flex;
-  align-items: center;
-  width: 360px;
-  justify-content: space-between;
-}
-.search {
-  border: 1px solid white;
-  background: black;
-  width: 290px;
-  height: 34px;
-  position: relative;
-  padding: 0 0.5em;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.search-input {
-  border: none;
-  background: black;
-  margin-left: 10px;
-  width: 100%;
-  height: 25px;
-  color: white;
-  padding: 0 0.5em;
-  outline: none;
-}
-
-.img-acc {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.7;
-  }
 }
 
 .change_color {

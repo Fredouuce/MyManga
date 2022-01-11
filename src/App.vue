@@ -27,4 +27,8 @@ body {
   background: #292929;
   color: white;
 }
+a {
+  color: white;
+  text-decoration: none;
+}
 </style>

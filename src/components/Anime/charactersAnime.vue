@@ -1,25 +1,27 @@
 <template>
-  <h2>Characters :</h2>
-  <div v-if="characters.length > 0" class="main-chara">
-    <div
-      v-for="character in characters"
-      :key="character.id"
-      class="chara-container"
-    >
-      <img
-        :src="character.character.images.jpg.image_url"
-        alt=""
-        class="chara-img"
-      />
-      <p class="chara-name">{{ character.character.name }}</p>
+  <div>
+    <h2>Characters :</h2>
+
+    <div v-if="characters.length > 0" class="main-chara">
+      <div
+        v-for="character in characters"
+        :key="character.id"
+        class="chara-container"
+      >
+        <img
+          :src="character.character.images.jpg.image_url"
+          alt=""
+          class="chara-img"
+        />
+        <p class="chara-name">{{ character.character.name }}</p>
+      </div>
+      <div>
+        <router-link to="/character/"><span>View all</span></router-link>
+      </div>
     </div>
-    <div>
-      <router-link to="/character/"><span>View all</span></router-link>
+    <div v-else>
+      <p>Chargement</p>
     </div>
-  </div>
-  <div v-else>
-    <p>En chargement</p>
-    <p>{{ characters.length }}</p>
   </div>
 </template>
 
