@@ -82,6 +82,7 @@ export default {
         if (this.searchInput) {
           this.isLoading = null;
           axios
+
             .get(`https://api.jikan.moe/v4/anime?letter=${this.searchInput}`)
             .then((response) => {
               this.animeSearch = response.data.data.slice(0, 8);
